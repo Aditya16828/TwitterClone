@@ -3,17 +3,24 @@ const mongoose = require('mongoose');
 const tweetSchema = new mongoose.Schema({
     content:{
         type: String,
-        required: true
+        required: true,
+        max: [250, 'Tweet limit exceeded']
     },
     userEmail:{
         type: String,
         required: true
     },
-    comments: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comment'
-    }]
+    hashtags: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Hashtag'
+        }
+    ]
 }, {timestamps: true});
+
+// tweetSchema.virtual('contentCreator').get(function process(){
+//     return `${this.content} \nCreated by: ${this.userEmail}`;
+// })
 
 const Tweet = mongoose.model('Tweet', tweetSchema);
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const connect = require('./config/database');
-const TweetRepo = require('./repository/tweet-repository');
-const Comment = require('./models/comments');
+// const TweetRepo = require('./repository/tweet-repository');
+// const Comment = require('./models/comments');
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.listen(PORT, async () => {
     // await Tweet.create({content: "First Tweet", userEmail: "anm@gmail.com"});
     // await Tweet.create({content: "Second Tweet", userEmail: "anm@gmail.com"});
 
-    const tr = new TweetRepo();
+    // const tr = new TweetRepo();
     // tr.createTweet({content: "Third Tweet", userEmail: "aditya@gmail.com"});
     // const tweet = await tr.updateTweet('63db07e5b4e752b7ab255b51', {content: "Third Tweet updated 2"});
     // console.log(tweet);
@@ -26,10 +26,13 @@ app.listen(PORT, async () => {
     // tweet.save();
     // console.log(tweet);
 
-    const tweet = await tr.readTweet('63db07e5b4e752b7ab255b51');
-    const tweetwithComments = await tr.readTweetwithComments('63db07e5b4e752b7ab255b51');
+    // const tweet = await tr.readTweet('63db07e5b4e752b7ab255b51');
+    // const tweetwithComments = await tr.readTweetwithComments('63db07e5b4e752b7ab255b51');
 
-    console.log(tweet);
-    console.log("************************************************");
-    console.log(tweetwithComments);
+    // console.log(tweet);
+    // console.log("************************************************");
+    // console.log(tweetwithComments);
+
+    // const tweet = await tr.readTweet('63db07e5b4e752b7ab255b51');
+    // console.log(tweet.contentCreator);
 });

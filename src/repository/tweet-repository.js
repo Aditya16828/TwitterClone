@@ -31,6 +31,16 @@ class Tweet_Repository{
         }
     }
 
+    async readAll(offset, limit){
+        try {
+            const tweets = await Tweet.find().skip(offset).limit(limit); // pagination
+            return tweets;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
     async updateTweet(id, data){
         try {
             const tweet =  await Tweet.findByIdAndUpdate(id, data ,{new: true}); // new: true is required to return the new updated object
