@@ -2,6 +2,8 @@ const express = require('express');
 const connect = require('./config/database');
 // const TweetRepo = require('./repository/tweet-repository');
 // const Comment = require('./models/comments');
+const Tweet_Service = require('./services/tweet-service');
+const {HashtagRepository} = require('./repository/index');
 
 const app = express();
 
@@ -35,4 +37,17 @@ app.listen(PORT, async () => {
 
     // const tweet = await tr.readTweet('63db07e5b4e752b7ab255b51');
     // console.log(tweet.contentCreator);
+
+    // const hashtagrepo = new HashtagRepository();
+    // const ht = await hashtagrepo.createHashtags([{title: 'hello', tweets: []}, {title: 'everyone', tweets: []}]);
+    // console.log(ht);
+
+    // const ts = new Tweet_Service();
+
+    // let tweet = await ts.create({content: "Hello #everyone !!! this is my #second #tweet", userEmail: "anm@gmail.com"});
+    // console.log(tweet);
+    // tweet = await ts.create({content: "Hello #everyone !!! my #coding #life starts", userEmail: "anm@gmail.com"});
+    // console.log(tweet);
+    // tweet = await ts.create({content: "Hello #everyone !!! loving this #life", userEmail: "anm@gmail.com"});
+    // console.log(tweet);
 });
