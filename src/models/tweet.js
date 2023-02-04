@@ -6,10 +6,6 @@ const tweetSchema = new mongoose.Schema({
         required: true,
         max: [250, 'Tweet limit exceeded']
     },
-    userEmail:{
-        type: String,
-        required: true
-    },
     hashtags: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -17,10 +13,6 @@ const tweetSchema = new mongoose.Schema({
         }
     ]
 }, {timestamps: true});
-
-// tweetSchema.virtual('contentCreator').get(function process(){
-//     return `${this.content} \nCreated by: ${this.userEmail}`;
-// })
 
 const Tweet = mongoose.model('Tweet', tweetSchema);
 
