@@ -6,10 +6,10 @@ const tweetSchema = new mongoose.Schema({
         required: true,
         max: [250, 'Tweet limit exceeded']
     },
-    hashtags: [
+    likes: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Hashtag'
+            ref: 'Like'
         }
     ]
 }, {timestamps: true});

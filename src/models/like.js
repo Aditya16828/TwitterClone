@@ -8,7 +8,13 @@ const likeSchema = new mongoose.Schema({
     },
     likedId:{
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        refPath: 'onModel'
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     }
 }, {timestamps: true});
 
