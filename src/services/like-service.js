@@ -1,9 +1,10 @@
-const { LikeRepository, TweetRepository } = require('../repository/index');
+const { LikeRepository, TweetRepository, CommentRepository } = require('../repository/index');
 
 class LikeService {
     constructor() {
         this.likerepo = new LikeRepository();
         this.tweetrepo = new TweetRepository();
+        this.commentrepo = new CommentRepository();
     }
 
     async toggleLike(modelId, modelType, userId) { // /api/v1/likes/toggle?id=modelid&type=Tweet
@@ -12,7 +13,7 @@ class LikeService {
                 var likeable = await this.tweetrepo.read(modelId);
 
             } else if (modelType == 'Comment') {
-                // TODO
+                var likeable = await this.commentrepo.read(modelId);
             } else {
                 throw new Error('ModelType mismatch');
             }
