@@ -1,5 +1,5 @@
 const multer = require('multer');
-const multerS3 = require();
+const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
 const dotenv = require('dotenv');
 
@@ -13,10 +13,12 @@ aws.config.update({
 
 const s3 = new aws.S3();
 
+console.log(s3);
+
 const upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'twitter-clone-aditya',
+        bucket: 'twitter-clone-image-bucket',
         acl: 'public-read',
         metadata: function (req, file, cb) {
             cb(null, { fieldName: file.fieldname });

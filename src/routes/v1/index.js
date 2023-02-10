@@ -8,7 +8,7 @@ const {authenticate} = require('../../middlewares/authenticate');
 
 const router = express.Router();
 
-router.post('/tweet', authenticate, createTweet);
+router.post('/tweet', createTweet);
 router.post('/like', authenticate, toggleLike);
 router.post('/comment', authenticate, createComment);
 router.post('/signup', signup);
