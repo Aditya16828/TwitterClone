@@ -11,6 +11,18 @@ class UserRepository extends CrudRepository{
             const user = await User.findOne(data);
             return user;
         } catch(error){
+            error = {...error, layer: "Repository"};
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async readwithTweets(data){
+        try{
+            const user = await User.findOne(data).populate({path: 'tweets'});
+            return user;
+        } catch(error){
+            error = {...error, layer: "Repository"};
             console.log(error);
             throw error;
         }

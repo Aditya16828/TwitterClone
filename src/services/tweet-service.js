@@ -1,45 +1,57 @@
-const { TweetRepository, HashtagRepository } = require("../repository/index");
+const { TweetRepository, HashtagRepository, UserRepository } = require("../repository/index");
 
 class TweetService {
     constructor() {
         this.tweetrepo = new TweetRepository();
         this.hashtagrepo = new HashtagRepository();
+        this.userRepo = new UserRepository();
+    }
+
+    async #updateTweets(userid, data){
+        try{
+            const user = await this.userRepo.read(userid);
+            user.tweets.push(data);
+            user.save();
+            return user;
+        } catch(error){
+            console.log(error);
+            throw error;
+        }
     }
 
     async createTweet(data) {
         try {
+            let data1 = {content: data.content, images: data.images};
+            const tweet = await this.tweetrepo.create(data1);
+            await this.#updateTweets(data.user._id, tweet._id);
+
             const content = data.content;
 
             // find for hashtags using regex
             let tags = content.match(/#[a-zA-Z0-9_]+/g);
-            tags = tags.map((tag) => tag.substring(1));
+            if (tags) {
+                tags = tags.map((tag) => tag.substring(1));
 
-            // console.log(tags);
 
-            let oldtags = await this.hashtagrepo.findByName(tags);
-            let oldtagstitle = [];
-            oldtagstitle = oldtags.map((tag) => tag.title);
-            // console.log("Old Tags:", oldtags);
-            let newtags = tags.filter((tag) => !oldtagstitle.includes(tag));
-            // console.log("new Tags:", newtags);
+                let oldtags = await this.hashtagrepo.findByName(tags);
+                let oldtagstitle = [];
+                oldtagstitle = oldtags.map((tag) => tag.title);
+                let newtags = tags.filter((tag) => !oldtagstitle.includes(tag));
 
-            const tweet = await this.tweetrepo.create(data);
+                newtags = newtags.map((tag) => {
+                    return { title: tag, tweets: [tweet.id] };
+                });
 
-            newtags = newtags.map((tag) => {
-                return { title: tag, tweets: [tweet.id] };
-            });
+                oldtags.forEach((tag) => {
+                    tag.tweets.push(tweet.id);
+                    tag.save();
+                });
 
-            oldtags.forEach((tag) => {
-                tag.tweets.push(tweet.id);
-                tag.save();
-            });
+                const response = await this.hashtagrepo.createHashtags(newtags);
+            }
 
-            const response = await this.hashtagrepo.createHashtags(newtags);
-
-            // console.log(response);
-            return { response, tweet };
+            return tweet;
         } catch (error) {
-            // error = { ...error, fromLayer2: "Service" };
             console.log(error);
             throw error;
         }
